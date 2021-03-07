@@ -1,18 +1,23 @@
 import { createSelector } from 'reselect'
 
-const selectRoute = (state) => state.robot;
+const selectRobot = (state) => state.robot;
 
 export const selectRobot1Health = createSelector(
-    [selectRoute],
+    [selectRobot],
     (robot) =>robot.robot1Health
     )
 
     export const selectRobot2Health = createSelector(
-        [selectRoute],
-        (robot) =>robot.robot2Health
-        )
+    [selectRobot],
+    (robot) =>robot.robot2Health
+    )
 
 export const selectTurn = createSelector(
-    [selectRoute],
+    [selectRobot],
     (robot) =>robot.turn
     )
+
+export const selectGameMode = createSelector(
+    [selectRobot],
+    (robot) =>robot.gameMode
+        )

@@ -3,7 +3,8 @@ import robotActionTypes from './robot.types'
 const INITIAL_STATE = {
     robot1Health: 100,
     robot2Health: 100,
-    turn: 'player1'
+    turn: 'player1',
+    gameMode: ''
 }
 
 const headerReducer = (state = INITIAL_STATE, action) => {
@@ -24,6 +25,13 @@ const headerReducer = (state = INITIAL_STATE, action) => {
                         ...state,
                         turn: action.payload
                     }
+            case robotActionTypes.SET_GAMEMODE:
+                    return{
+                    ...state,
+                    gameMode: action.payload,
+                    robot1Health: 100,
+                    robot2Health: 100
+                        }
             
         default:
             return state

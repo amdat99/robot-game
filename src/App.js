@@ -4,10 +4,10 @@ import Robot2 from './components/robot2'
 import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectRobot2Health, selectRobot1Health } from './redux/robot/robot.selectors'
-import { setRobot2Health, setRobot1Health, setTurn} from './redux/robot/robot.actions'
+import { setRobot2Health, setRobot1Health, setTurn,setGameMode} from './redux/robot/robot.actions'
 import './App.css';
 
-function App({robot1Health, robot2Health, setTurn,setRobot2Health, setRobot1Health}) {
+function App({robot1Health, robot2Health, setTurn,setRobot2Health, setRobot1Health,setGameMode}) {
 const [player1Name, setPlayer1Name] = useState('')
 const [player2Name, setPlayer2Name] = useState('')
 const [playerNames, setPlayerNames ] = useState({player1:'',player2:''})
@@ -22,29 +22,38 @@ const setPlayer2 = () => {
 
 const checkWinner = () => {
   if( robot1Health <= 0){
-    setPlayerNames({player1:'', player2:''})
-    setPlayer1Name('') 
-    setPlayer2Name('')
-    setRobot1Health(100)
-    setRobot2Health(100)
+    // setPlayerNames({player1:'', player2:''})
+    // setPlayer1Name('') 
+    // setPlayer2Name('')
+    setGameMode('')
     alert('Winner player 2')
+
     
   
   } else if( robot2Health <= 0){
-    setPlayerNames({player1:'', player2:''})
-    setPlayer1Name('')
-    setPlayer2Name('')
-    setRobot1Health(100)
-    setRobot2Health(100)
+    // setPlayerNames({player1:'', player2:''})
+    // setPlayer1Name('')
+    // setPlayer2Name('')
+    setGameMode('')
     alert('Winner player 1')
+ 
 }
 }
 
-console.log(playerNames)
+const initialiseGameMode = (mode) => {
+  setGameMode(mode)
+}
+  
   return (
     <div className="App">
 
     <div>
+   
+    <button onClick ={() => initialiseGameMode('singleplayer')}>Single Player</button>
+    <button onClick ={() => initialiseGameMode('multiplayer')}>Multiplayer</button>
+   
+    {/* <button></button> */}
+      
       <input type="text" placeholder="enter name player1" onChange={ (e) => setPlayer1Name(e.target.value) }/>
       <button onClick={setPlayer1}>setPlayer1Name</button>
       
@@ -75,7 +84,8 @@ const mapStateToProps = (createStructuredSelector) ({
 const mapDispatchToProps = (dispatch) => ({
   setRobot2Health: (value) => dispatch(setRobot2Health(value)),
   setRobot1Health: (value) => dispatch(setRobot1Health(value)),
-  setTurn : (player) => dispatch(setTurn(player))
+  setTurn : (player) => dispatch(setTurn(player)),
+  setGameMode: (mode) => dispatch(setGameMode(mode))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

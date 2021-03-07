@@ -17,3 +17,9 @@ export const setTurn = (player) => ({
     payload: player
 
 })
+
+export const setGameMode = (mode) => ({
+    type: robotActionTypes.SET_GAMEMODE,
+    payload: mode
+
+})
