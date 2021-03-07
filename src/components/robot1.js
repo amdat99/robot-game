@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -7,6 +7,16 @@ import { selectRobot1Health, selectTurn } from '../redux/robot/robot.selectors'
 
 function Robot1({playerNames,robot1Health, setRobot2Health,turn, setTurn, checkWinner }) {
 
+   useEffect(() =>{
+       checkWinner()
+   },[robot1Health,setRobot2Health,checkWinner])
+
+    const onAttack = async(value) => {
+        await checkWinner()
+        setRobot2Health(value)
+        setTurn('player2')
+        
+    } 
 
     return (
         <div> 
@@ -14,7 +24,7 @@ function Robot1({playerNames,robot1Health, setRobot2Health,turn, setTurn, checkW
            <img src={`https://robohash.org//${playerNames.player1}`} />
            <span>player1: {playerNames.player1}</span>
             { turn === 'player1'
-            ?<button onClick={()=> {setRobot2Health(-20); setTurn('player2'); checkWinner() }}>laser</button>
+            ?<button onClick={()=> onAttack(Math.floor((Math.random() * -15) + -20))}>laser</button>
            
             :null}
         </div>
