@@ -22,9 +22,9 @@ const [robo1Turn, setrobo1Turn] = useState('')
 const [robo2Turn, setrobo2Turn] = useState('')
 
 useEffect(() => {
-  if(gameMode === 'multiplayer'){
+  
  if (room) initiateSocket(room);  
- if(gameMode === 'multiplayer'){
+ 
    enterName((err, data) => {
    
   if(player1Name) {
@@ -51,12 +51,12 @@ enterAction1((err, data) => {
   console.log(data)
 })
 
-}
+
 return () => {
    disconnectSocket();
  }
 
-}}
+}
 )
 
 
