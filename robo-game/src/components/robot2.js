@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -10,6 +10,14 @@ import './robot.css'
 
 function Robot2({playerNames,robot2Health, setRobot1Health,setTurn,turn,checkWinner,gameMode,robo2Turn,room
 , setRobot2Health}) {
+
+    const [animation, setAnimation] = useState({laser: false, 2: false, 3: false})
+    // const [laser] =useState(laser)
+    // const [rocket] =useState(rocket)
+    // const [shield] =useState(shield)
+    
+
+
     useEffect(() =>{
         checkWinner()
     },[setRobot1Health,checkWinner])
@@ -35,11 +43,21 @@ const onSocketHealth = async(value) => {
     sendTurn('player1',room)
     sendAction2(value,room)
 }
+const startAnimation = (type)=>{
+    setAnimation(type)
+    setInterval(function(){ setAnimation({type:false}) }, 100);
+
+
+}
+
+
+
       
     return (
         <div>
+             <div id ={animation.laser? 'laser2' : null}></div>
             <span id ='robot-health'>health: {robot2Health}</span>
-            <img src={`https://robohash.org//${playerNames.player2}`} />
+            <img src={`https://robohash.org//${playerNames.player2}`}  />
             <span id ='robot-name'>player2: {playerNames.player2}</span>
         
         {gameMode === 'singleplayer'
@@ -47,9 +65,14 @@ const onSocketHealth = async(value) => {
             {turn === 'player2'
             
             ?<div>
-            <button onClick = {()=> onAttack(Math.floor((Math.random() * -15) + -20))} >laser</button>
-            <button onClick={()=> onAttack(Math.floor((Math.random() * -10) + -15))}>rocket</button>
-            <button onClick = {()=> onHealth(Math.floor((Math.random() * 5) + 15))} >shield</button>
+            <button onClick={()=>{ onAttack(Math.floor((Math.random() * -15) + -20)); 
+           startAnimation({laser:true})} }>laser</button>
+            
+            <button onClick={()=> {onAttack(Math.floor((Math.random() * -5) + -25));
+                     startAnimation(2)} }>rocket</button>
+            
+            <button onClick = {()=> {onHealth(Math.floor((Math.random() * 5) + 10));
+                     startAnimation(3)} }>shield</button>
             </div>
             : null}
         </div>
@@ -60,9 +83,14 @@ const onSocketHealth = async(value) => {
             {turn === robo2Turn
             
             ?<div>
-            <button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -15) + -25))} >laser</button>
-            <button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -5) + -20))} >rocket</button>
-            <button onClick = {()=> onSocketHealth(Math.floor((Math.random() * 5) + 15))} >shield</button>
+            <button onClick={()=>{ onSocketAttack(Math.floor((Math.random() * -15) + -20)); 
+                    startAnimation(1)} }>laser</button>
+            
+            <button onClick={()=> {onSocketAttack(Math.floor((Math.random() * -5) + -25));
+                      startAnimation(2)} }>rocket</button>
+            
+            <button onClick = {()=> {onSocketHealth(Math.floor((Math.random() * 5) + 10));
+                     startAnimation(3)} }>shield</button>
             </div>
             : null}
         </div>

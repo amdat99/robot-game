@@ -1,8 +1,44 @@
 
 
+#laser1{
+ width: 50px;
+ height: 10px;
+ z-index: 5;
+ bottom: -150px;
+ position: relative;
+ background: red;
+ left: 150px;
+ animation: robot1laser 0.1s linear 0s infinite alternate;
+ animation-duration: 0.1s;
+}
+
+@keyframes robot1laser{
+    0%   {background-color:red;  }
+    100% {background-color:red; left:500px; }
+}
+
+#laser2{
+    width: 50px;
+    height: 10px;
+    z-index: 5;
+    bottom: -150px;
+    position: relative;
+    background: red;
+    left: 120px;
+    animation: robot2laser 0.1s linear 0s infinite alternate;
+    animation-duration: 0.1s;
+   }
+
+   @keyframes robot2laser{
+    0%   {background-color:red;   }
+    100% {background-color:red; left:-200px; }
+}
+   
+
+
 #robot-health{
 position: relative;
-bottom: -20px;
+bottom: -10px;
 }
 
 #robot-name{
