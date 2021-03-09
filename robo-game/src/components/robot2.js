@@ -4,52 +4,53 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectRobot2Health, selectTurn, selectGameMode } from '../redux/robot/robot.selectors'
 import { setRobot1Health, setTurn } from '../redux/robot/robot.actions'
-import { sendAction1, enterTurn, sendTurn, enterAction1, disconnectSocket,initiateSocket  } from '../sockets/sockets'
+import { sendAction1, sendAction2, sendTurn,  } from '../sockets/sockets'
 
-function Robot2({playerNames,robot2Health, setRobot1Health,setTurn,turn,checkWinner,gameMode,robo2Turn,room}) {
+import './robot.css'
+
+function Robot2({playerNames,robot2Health, setRobot1Health,setTurn,turn,checkWinner,gameMode,robo2Turn,room
+, setRobot2Health}) {
     useEffect(() =>{
         checkWinner()
     },[setRobot1Health,checkWinner])
 
-//     useEffect(() => {
 
-//             if (room) initiateSocket(room); 
-            
-//             enterTurn(( data) => {
-//             setTurn( data)
-//       });
-
-//       return () => {
-//         disconnectSocket();
-//       }
-
-// } )
 
 const onAttack = async(value) => {
-        setRobot1Health(value)
-        setTurn('player1')
-       
+    setRobot1Health(value)
+    setTurn('player1')
     } 
 
-    const onSocketAttack = async(value) => {  
-        sendTurn('player1',room)
-        sendAction1(value,room)
-      
- 
+const onHealth = async(value) => {
+    setRobot2Health(value)
+    setTurn('player1')
+    } 
 
+const onSocketAttack = async(value) => {  
+    sendTurn('player1',room)
+    sendAction1(value,room)
+}
 
-    }
+const onSocketHealth = async(value) => {  
+    sendTurn('player1',room)
+    sendAction2(value,room)
+}
       
     return (
         <div>
-            <span>health: {robot2Health}</span>
+            <span id ='robot-health'>health: {robot2Health}</span>
             <img src={`https://robohash.org//${playerNames.player2}`} />
-            <span>player2: {playerNames.player2}</span>
+            <span id ='robot-name'>player2: {playerNames.player2}</span>
         
         {gameMode === 'singleplayer'
         ?<div>
             {turn === 'player2'
-            ?<button onClick = {()=> onAttack(Math.floor((Math.random() * -15) + -20))} >laser</button>
+            
+            ?<div>
+            <button onClick = {()=> onAttack(Math.floor((Math.random() * -15) + -20))} >laser</button>
+            <button onClick={()=> onAttack(Math.floor((Math.random() * -10) + -15))}>rocket</button>
+            <button onClick = {()=> onHealth(Math.floor((Math.random() * 5) + 15))} >shield</button>
+            </div>
             : null}
         </div>
            : null}
@@ -57,7 +58,12 @@ const onAttack = async(value) => {
         {gameMode === 'multiplayer'
         ?<div>
             {turn === robo2Turn
-            ?<button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -5) + -10))} >laser</button>
+            
+            ?<div>
+            <button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -15) + -25))} >laser</button>
+            <button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -5) + -20))} >rocket</button>
+            <button onClick = {()=> onSocketHealth(Math.floor((Math.random() * 5) + 15))} >shield</button>
+            </div>
             : null}
         </div>
            : null}

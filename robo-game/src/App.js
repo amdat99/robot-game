@@ -145,17 +145,17 @@ return (
       </div>
 
       {playerNames.player1 ?
-        <div>
+        <div className ='robot1'>
         <Robot1 playerNames = {playerNames} checkWinner={checkWinner} setRobot2Health={setRobot2Health} setTurn={setTurn} room={room}
-          robo1Turn = {robo1Turn}
+          robo1Turn = {robo1Turn} setRobot1Health ={setRobot1Health}
         />
         </div>
      :null }
       
      {playerNames.player2 ?
-        <div>
+        <div className ='robot2'>
           <Robot2 playerNames = {playerNames} checkWinner={checkWinner} robot1Health = {robot1Health} setTurn = {setTurn}
-            robo2Turn = {robo2Turn}
+            robo2Turn = {robo2Turn} setRobot2Health ={setRobot2Health}
           />
         </div>
      :null }
