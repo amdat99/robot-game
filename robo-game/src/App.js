@@ -7,8 +7,8 @@ import Robot2 from './components/robot2'
 import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectRobot2Health, selectRobot1Health ,selectGameMode } from './redux/robot/robot.selectors'
-import { setRobot2Health, setRobot1Health, setTurn,setGameMode} from './redux/robot/robot.actions'
-import { initiateSocket, enterName, enterAction, sendName, disconnectSocket} from './sockets/sockets'
+import { setRobot2Health, setRobot1Health,setTurn,setGameMode} from './redux/robot/robot.actions'
+import { initiateSocket, enterName, enterTurn,enterAction1, enterAction2, sendName, disconnectSocket} from './sockets/sockets'
 import './App.css';
 
 
@@ -35,15 +35,31 @@ useEffect(() => {
     setrobo2Turn('player2')
   }
 });
-}
 
-  return () => {
+enterTurn((err,data) => {
+  setTurn( data)
+    });
+
+  enterAction2((err, data) => {
+  setRobot2Health(data)
+  console.log(data)
+})
+
+
+enterAction1((err, data) => {
+  setRobot1Health(data)
+  console.log(data)
+})
+
+}
+return () => {
    disconnectSocket();
- }}}
+ }
+
+}}
 )
 
 
-console.log(playerNames)
 
 const setPlayer1 = () => {
   if(player1Name){
@@ -60,10 +76,14 @@ const setPlayer2 = () => {
 const checkWinner = () => {
   if( robot1Health <= 0){
     setGameMode('')
+    sendName('')
+    setPlayerNames({player1:'',player2:''})
     alert('Winner player 2')
 
   } else if( robot2Health <= 0){
     setGameMode('')
+    sendName('')
+    setPlayerNames({player1:'',player2:''})
     alert('Winner player 1')
   }
 }
@@ -113,6 +133,7 @@ return (
         </div>
      
      }
+    
       <span>rooms:</span>
       { 
         rooms.map((room, i) => 

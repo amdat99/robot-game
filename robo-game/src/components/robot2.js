@@ -4,47 +4,41 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectRobot2Health, selectTurn, selectGameMode } from '../redux/robot/robot.selectors'
 import { setRobot1Health, setTurn } from '../redux/robot/robot.actions'
-import { sendAction, enterTurn, sendTurn, enterAction, disconnectSocket,initiateSocket  } from '../sockets/sockets'
+import { sendAction1, enterTurn, sendTurn, enterAction1, disconnectSocket,initiateSocket  } from '../sockets/sockets'
 
 function Robot2({playerNames,robot2Health, setRobot1Health,setTurn,turn,checkWinner,gameMode,robo2Turn,room}) {
     useEffect(() =>{
         checkWinner()
     },[setRobot1Health,checkWinner])
 
-    useEffect(() => {
-        if(gameMode === 'multiplayer'){
-            if (room) initiateSocket(room); 
-            enterTurn(( data) => {
-            setTurn( data)
-      });
+//     useEffect(() => {
 
-      enterAction((err, data) => {
-        setRobot1Health(data)
-      })
-      return () => {
-        disconnectSocket();
-      }     
+//             if (room) initiateSocket(room); 
+            
+//             enterTurn(( data) => {
+//             setTurn( data)
+//       });
 
-      
-     
-      }
-      })
-    
- 
-    const onAttack = async(value) => {
+//       return () => {
+//         disconnectSocket();
+//       }
+
+// } )
+
+const onAttack = async(value) => {
         setRobot1Health(value)
         setTurn('player1')
        
     } 
 
-    const onSocketAttack = async(value) => {
-        sendAction(value,room)
+    const onSocketAttack = async(value) => {  
         sendTurn('player1',room)
-        enterTurn(( data) => {
-           setTurn(data) })
-    }
+        sendAction1(value,room)
+      
+ 
 
-    console.log('sdd',turn)
+
+    }
       
     return (
         <div>
@@ -63,7 +57,7 @@ function Robot2({playerNames,robot2Health, setRobot1Health,setTurn,turn,checkWin
         {gameMode === 'multiplayer'
         ?<div>
             {turn === robo2Turn
-            ?<button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -15) + -20))} >laser</button>
+            ?<button onClick = {()=> onSocketAttack(Math.floor((Math.random() * -5) + -10))} >laser</button>
             : null}
         </div>
            : null}

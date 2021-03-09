@@ -60,10 +60,17 @@ app.post('/addname',(req,res)=>{
    });
 
 
-   socket.on('action', (data) => {
+   socket.on('action1', (data) => {
       const { action } = data;
-      console.log(`action: ${action}, room: ${socketRoom}`);
-      io.to(socketRoom).emit('action', action, socketRoom );
+   
+      console.log(`action1: ${action}, room: ${socketRoom}`);
+      io.to(socketRoom).emit('action1', action, socketRoom );
+   });
+
+   socket.on('action2', (data) => {
+      const { action } = data;
+      console.log(`action2: ${action}, room: ${socketRoom}`);
+      io.to(socketRoom).emit('action2', action, socketRoom );
    });
 });
 

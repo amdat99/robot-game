@@ -21,10 +21,10 @@ export const disconnectSocket = () => {
 
   
   export  const enterTurn = (data) => {
-    
+    if (!socket) return;
     socket.on('turn', turn => {
       console.log('turn recieved')
-      return data( turn);
+      return data( null,turn);
     });
   }
 
@@ -33,21 +33,36 @@ export const disconnectSocket = () => {
     
   }
 
-  export const sendAction = (action, room) => {
-    if (socket) socket.emit('action', { action, room });
+  export const sendAction1 = (action, room) => {
+    if (socket) socket.emit('action1', { action, room });
+    console.log(action)
+   
+  }
+
+  export const sendAction2 = (action, room) => {
+    if (socket) socket.emit('action2', { action, room });
     console.log(action)
    
   }
   export const sendTurn = (turn, room) => {
+    
     if (socket) socket.emit('turn', { turn, room });
     console.log(turn)
   }
 
 
-  export  const enterAction = (data) => {
+  export  const enterAction1 = (data) => {
     if (!socket) return;
-    socket.on('action', action => {
-      console.log('action recieved');
+    socket.on('action1', action => {
+      console.log('action1 recieved');
+      return data(null, action);
+    });
+  }
+
+  export  const enterAction2 = (data) => {
+    if (!socket) return;
+    socket.on('action2', action => {
+      console.log('action1 recieved');
       return data(null, action);
     });
   }

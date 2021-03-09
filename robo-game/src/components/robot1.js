@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectRobot1Health, selectTurn, selectGameMode } from '../redux/robot/robot.selectors'
-import { sendAction, enterTurn, sendTurn, enterAction, disconnectSocket, initiateSocket  } from '../sockets/sockets'
+import { sendAction2, enterTurn, sendTurn, enterAction2, disconnectSocket, initiateSocket  } from '../sockets/sockets'
 
 
 function Robot1({playerNames,robot1Health, setRobot2Health,turn, setTurn, checkWinner,gameMode,room, robo1Turn }) {
@@ -12,45 +12,33 @@ function Robot1({playerNames,robot1Health, setRobot2Health,turn, setTurn, checkW
        checkWinner()
    },[robot1Health,setRobot2Health,checkWinner])
 
-   useEffect(() => {
+//    useEffect(() => {
 
-    if(gameMode === 'multiplayer'){
-    if (room) initiateSocket(room); 
-        
-    enterTurn((data) => {
-        setTurn( data)
-  });
+//     if (room) initiateSocket(room); 
+//         enterTurn((data) => {
+//         setTurn( data)
+//   });
+//   return () => {
+//     disconnectSocket();
+//   }
 
-  enterAction((err, data) => {
-      setRobot2Health(data)
-  })
+// })
 
+const onAttack = async(value) => {
+      setRobot2Health(value)
+    setTurn('player2')
 
-  return () => {
-    disconnectSocket();
-  
-  }
-  }
-  })
-
-
-    const onAttack = async(value) => {
-      
-        setRobot2Health(value)
-        setTurn('player2')
     } 
 
-    const onSocketAttack = async(value) => {
-      sendAction(value,room)
-      sendTurn('player2',room)
-    }
+    
+    const onSocketAttack = async(value) => { 
+        sendTurn('player2',room)
+        sendAction2(value,room)
+       
+ 
+  }
 
-    console.log('r', turn)
-    console.log(turn,robo1Turn)
-
-
-
-    return (
+return (
         <div> 
             <span>health: {robot1Health}</span>
            <img src={`https://robohash.org//${playerNames.player1}`} />
@@ -67,7 +55,7 @@ function Robot1({playerNames,robot1Health, setRobot2Health,turn, setTurn, checkW
            { gameMode === 'multiplayer'
            ?<div>
             { turn === robo1Turn
-            ?<button onClick={()=> onSocketAttack(Math.floor((Math.random() * -15) + -20))}>laser</button>
+            ?<button onClick={()=> onSocketAttack(Math.floor((Math.random() * -5) + -10))}>laser</button>
             :null}
             </div>
            : null}
